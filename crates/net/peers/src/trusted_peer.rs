@@ -62,20 +62,36 @@ impl TrustedPeer {
 
                 return Ok(NodeRecord { address: ip.into(), id, tcp_port, udp_port })
             }
-            Host::Domain(domain) => domain,
+            Host::Domain(domain) => {
+                if cfg!(feature = "resolve_peer_dns") {
+                    domain
+                } else {
+                    return Err(Error::new(
+                        std::io::ErrorKind::AddrNotAvailable,
+                        "DNS resolution is available only with `resolve_peer_dns` feature",
+                    ));
+                }
+            }
         };
 
-        // Resolve the domain to an IP address
-        let mut ips = tokio::net::lookup_host(format!("{domain}:0")).await?;
-        let ip = ips
-            .next()
-            .ok_or_else(|| Error::new(std::io::ErrorKind::AddrNotAvailable, "No IP found"))?;
-        Ok(NodeRecord {
-            address: ip.ip(),
-            id: self.id,
-            tcp_port: self.tcp_port,
-            udp_port: self.udp_port,
-        })
+        if cfg!(feature = "resolve_peer_dns") {
+            // Resolve the domain to an IP address
+            let mut ips = tokio::net::lookup_host(format!("{domain}:0")).await?;
+            let ip = ips
+                .next()
+                .ok_or_else(|| Error::new(std::io::ErrorKind::AddrNotAvailable, "No IP found"))?;
+            Ok(NodeRecord {
+                address: ip.ip(),
+                id: self.id,
+                tcp_port: self.tcp_port,
+                udp_port: self.udp_port,
+            })
+        } else {
+            Err(Error::new(
+                std::io::ErrorKind::AddrNotAvailable,
+                "DNS resolution is available only with `resolve_peer_dns` feature",
+            ))
+        }
     }
 }
 

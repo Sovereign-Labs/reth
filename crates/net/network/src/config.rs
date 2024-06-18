@@ -12,10 +12,8 @@ use reth_discv4::{Discv4Config, Discv4ConfigBuilder, NatResolver, DEFAULT_DISCOV
 use reth_discv5::NetworkStackId;
 use reth_dns_discovery::DnsDiscoveryConfig;
 use reth_eth_wire::{HelloMessage, HelloMessageWithProtocols, Status};
-use reth_network_peers::{pk2id, PeerId};
-use reth_primitives::{
-    mainnet_nodes, sepolia_nodes, ChainSpec, ForkFilter, Head, TrustedPeer, MAINNET,
-};
+use reth_network_peers::{pk2id, PeerId, TrustedPeer};
+use reth_primitives::{mainnet_nodes, sepolia_nodes, ChainSpec, ForkFilter, Head, MAINNET};
 use reth_provider::{BlockReader, HeaderProvider};
 use reth_tasks::{TaskSpawner, TokioTaskExecutor};
 use secp256k1::SECP256K1;
