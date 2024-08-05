@@ -387,7 +387,7 @@ revm-inspectors = "0.5"
 
 # eth
 alloy-chains = "0.1.18"
-alloy-primitives = "0.7.2"
+alloy-primitives = { version = "0.7.2", default-features = false }
 alloy-dyn-abi = "0.7.2"
 alloy-sol-types = "0.7.2"
 alloy-rlp = "0.3.4"

@@ -8012,7 +8012,7 @@ dependencies = [
  "sucds",
  "tempfile",
  "test-fuzz",
- "thiserror-no-std",
+ "thiserror",
  "thread_local",
  "toml",
  "triehash",
