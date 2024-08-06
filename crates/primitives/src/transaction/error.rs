@@ -16,7 +16,10 @@ pub enum InvalidTransactionError {
     #[cfg_attr(feature = "std", error("transaction nonce is not consistent"))]
     NonceNotConsistent,
     /// The transaction is before Spurious Dragon and has a chain ID.
-    #[cfg_attr(feature = "std", error("transactions before Spurious Dragon should not have a chain ID"))]
+    #[cfg_attr(
+        feature = "std",
+        error("transactions before Spurious Dragon should not have a chain ID")
+    )]
     OldLegacyChainId,
     /// The chain ID in the transaction does not match the current network configuration.
     #[cfg_attr(feature = "std", error("transaction's chain ID does not match"))]
